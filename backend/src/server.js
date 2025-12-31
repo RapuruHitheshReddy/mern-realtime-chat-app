@@ -18,39 +18,33 @@ import userRoutes from "./routes/user.routes.js";
 const app = express();
 const server = http.createServer(app);
 
-/* ---------------- CORS ---------------- */
-const allowedOrigins = [
-  "http://localhost:5173", // DEV
-  process.env.CLIENT_URL, // PROD (Vercel)
-];
-
+/* ---------------- CORS (NO RESTRICTIONS, EXPRESS 5 SAFE) ---------------- */
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow server-to-server, Postman, mobile apps
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.error("❌ Blocked by CORS:", origin);
-        callback(new Error("CORS not allowed"));
-      }
-    },
-    credentials: true,
+    origin: true, // allow ALL origins
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false, // MUST match axios (withCredentials: false)
   })
 );
+
+/*
+  NOTE:
+  ❌ DO NOT use app.options("*", ...)
+  Express 5 + path-to-regexp will crash.
+  cors() middleware already handles OPTIONS.
+*/
 
 /* ---------------- Body Parsing ---------------- */
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-/* ---------------- Socket.IO ---------------- */
+/* ---------------- Socket.IO (NO RESTRICTIONS) ---------------- */
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: true,
     methods: ["GET", "POST"],
-    credentials: true,
+    credentials: false,
   },
 });
 
