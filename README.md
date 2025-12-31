@@ -1,12 +1,5 @@
 # 💬 MERN Real-Time Chat Application
 
-### 🚀 Live URLs
-
-**Frontend (Vercel)** : https://mern-realtime-chat-app-client.vercel.app
-
-**Backend (Render)** : https://mern-realtime-chat-app-backend.onrender.com
-
-
 ##  Project Overview
 
 This project is a **production-ready real-time chat application** built using the **MERN stack** (MongoDB, Express.js, React, Node.js) with **WebSockets (Socket.IO)** for instant communication.
